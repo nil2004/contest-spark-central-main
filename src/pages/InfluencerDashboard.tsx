@@ -36,13 +36,13 @@ const InfluencerDashboard = () => {
   const [saveSuccess, setSaveSuccess] = useState(false);
   const navigate = useNavigate();
 
-  // Tab refs for scrollIntoView
+  // Tab wrapper refs for scrollIntoView
   const tabRefs = {
-    dashboard: useRef<HTMLButtonElement>(null),
-    submissions: useRef<HTMLButtonElement>(null),
-    rewards: useRef<HTMLButtonElement>(null),
-    profile: useRef<HTMLButtonElement>(null),
-    notifications: useRef<HTMLButtonElement>(null),
+    dashboard: useRef<HTMLDivElement>(null),
+    submissions: useRef<HTMLDivElement>(null),
+    rewards: useRef<HTMLDivElement>(null),
+    profile: useRef<HTMLDivElement>(null),
+    notifications: useRef<HTMLDivElement>(null),
   };
 
   useEffect(() => {
@@ -257,6 +257,7 @@ const InfluencerDashboard = () => {
 
   useEffect(() => {
     if (tabRefs[activeTab] && tabRefs[activeTab].current) {
+      console.log('Scrolling tab into view:', activeTab);
       tabRefs[activeTab].current.scrollIntoView({ behavior: 'smooth', inline: 'center', block: 'nearest' });
     }
   }, [activeTab]);
@@ -331,16 +332,26 @@ const InfluencerDashboard = () => {
       <div className="max-w-6xl mx-auto px-2 sm:px-4 lg:px-8 py-2 sm:py-4 flex-1 w-full">
         <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
           <TabsList className="w-full flex overflow-x-auto gap-2 mb-4 sm:mb-6 md:mb-8 rounded-lg bg-white/80 shadow-sm">
-            <TabsTrigger ref={tabRefs.dashboard} value="dashboard" className="flex-1 min-w-[120px]">Dashboard</TabsTrigger>
-            <TabsTrigger ref={tabRefs.submissions} value="submissions" className="flex-1 min-w-[120px]">My Submissions</TabsTrigger>
-            <TabsTrigger ref={tabRefs.rewards} value="rewards" className="flex-1 min-w-[120px]">Rewards</TabsTrigger>
-            <TabsTrigger ref={tabRefs.profile} value="profile" className="flex-1 min-w-[120px]">Profile</TabsTrigger>
-            <TabsTrigger ref={tabRefs.notifications} value="notifications" className="flex-1 min-w-[120px] relative">
-              Notifications
-              {unreadCount > 0 && (
-                <span className="absolute -top-2 -right-2 bg-red-500 text-white rounded-full px-2 text-xs">{unreadCount}</span>
-              )}
-            </TabsTrigger>
+            <div ref={tabRefs.dashboard} className="flex-1 min-w-[120px]">
+              <TabsTrigger value="dashboard" className="w-full">Dashboard</TabsTrigger>
+            </div>
+            <div ref={tabRefs.submissions} className="flex-1 min-w-[120px]">
+              <TabsTrigger value="submissions" className="w-full">My Submissions</TabsTrigger>
+            </div>
+            <div ref={tabRefs.rewards} className="flex-1 min-w-[120px]">
+              <TabsTrigger value="rewards" className="w-full">Rewards</TabsTrigger>
+            </div>
+            <div ref={tabRefs.profile} className="flex-1 min-w-[120px]">
+              <TabsTrigger value="profile" className="w-full">Profile</TabsTrigger>
+            </div>
+            <div ref={tabRefs.notifications} className="flex-1 min-w-[120px] relative">
+              <TabsTrigger value="notifications" className="w-full">
+                Notifications
+                {unreadCount > 0 && (
+                  <span className="absolute -top-2 -right-2 bg-red-500 text-white rounded-full px-2 text-xs">{unreadCount}</span>
+                )}
+              </TabsTrigger>
+            </div>
           </TabsList>
 
           <TabsContent value="dashboard">
