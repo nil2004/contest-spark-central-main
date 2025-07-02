@@ -262,6 +262,13 @@ const InfluencerDashboard = () => {
     }
   }, [activeTab]);
 
+  // Scroll active tab into view on mount
+  useEffect(() => {
+    if (tabRefs[activeTab] && tabRefs[activeTab].current) {
+      tabRefs[activeTab].current.scrollIntoView({ behavior: 'smooth', inline: 'center', block: 'nearest' });
+    }
+  }, []);
+
   if (loading) {
     return <div className="min-h-screen flex items-center justify-center text-lg text-gray-500">Loading profile...</div>;
   }
