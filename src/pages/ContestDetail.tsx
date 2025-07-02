@@ -451,32 +451,36 @@ const ContestDetail = () => {
                             {engagementLeaders.map((entry) => (
                               <div
                                 key={entry.rank}
-                                className={`flex items-center justify-between p-4 mb-3 rounded-xl shadow-sm bg-white border transition-all hover:shadow-lg ${entry.rank <= 3 ? 'border-yellow-300' : 'border-gray-200'}`}
+                                className={`flex flex-col sm:flex-row sm:items-center p-2 sm:p-3 mb-2 rounded-xl shadow-sm bg-white border overflow-x-hidden transition-all hover:shadow-lg ${entry.rank <= 3 ? 'border-yellow-300' : 'border-gray-200'}`}
                               >
-                          <div className="flex items-center space-x-3">
-                                  <span className={`w-7 h-7 flex items-center justify-center rounded-full font-bold text-sm mr-1 ${
-                                    entry.rank === 1 ? 'bg-yellow-100 text-yellow-700' : entry.rank === 2 ? 'bg-gray-200 text-gray-700' : entry.rank === 3 ? 'bg-orange-100 text-orange-700' : 'bg-gray-100 text-gray-600'
-                                  }`}>
-                                    #{entry.rank}
-                                  </span>
-                                  <div className={`w-8 h-8 rounded-full flex items-center justify-center font-bold text-white text-lg ${
-                                    entry.rank === 1 ? 'bg-yellow-500' : entry.rank === 2 ? 'bg-gray-400' : entry.rank === 3 ? 'bg-orange-400' : 'bg-gray-300'
-                                  }`}>
-                                    {entry.rank <= 3 ? <Trophy className="h-5 w-5" /> : entry.rank}
-                                  </div>
-                                  <div>
-                                    {(() => {
-                                      const prev = previousRanks[entry.user_id];
-                                      if (prev === undefined) return <span className="text-gray-400 ml-1">-</span>;
-                                      if (entry.rank < prev) return <span className="text-green-500 ml-1">▲</span>;
-                                      if (entry.rank > prev) return <span className="text-red-500 ml-1">▼</span>;
-                                      return <span className="text-gray-400 ml-1">■</span>;
-                                    })()}
-                            </div>
-                            <div>
-                                    <div className="font-bold text-gray-800">{entry.name}</div>
-                                    <div className="text-xs text-gray-500">{entry.handle}</div>
-                                    <div className="flex space-x-4 text-xs text-gray-600 mt-2 bg-gray-50 rounded px-2 py-1">
+                                <div className="flex flex-col sm:flex-row sm:items-center w-full">
+                                  <div className="flex flex-row items-center flex-wrap gap-x-2 gap-y-1 w-full sm:w-auto">
+                                    <span className={`w-7 h-7 flex items-center justify-center rounded-full font-bold text-sm mr-1 ${
+                                      entry.rank === 1 ? 'bg-yellow-100 text-yellow-700' : entry.rank === 2 ? 'bg-gray-200 text-gray-700' : entry.rank === 3 ? 'bg-orange-100 text-orange-700' : 'bg-gray-100 text-gray-600'
+                                    }`}>
+                                      #{entry.rank}
+                                    </span>
+                                    <div className={`w-8 h-8 rounded-full flex items-center justify-center font-bold text-white text-lg ${
+                                      entry.rank === 1 ? 'bg-yellow-500' : entry.rank === 2 ? 'bg-gray-400' : entry.rank === 3 ? 'bg-orange-400' : 'bg-gray-300'
+                                    }`}>
+                                      {entry.rank <= 3 ? <Trophy className="h-5 w-5" /> : entry.rank}
+                                    </div>
+                                    <div className="min-w-0 flex-1 flex items-center gap-2">
+                                      <div className="font-bold text-gray-800 text-sm sm:text-base truncate max-w-[120px] sm:max-w-xs">{entry.name}</div>
+                                      {entry.handle && (
+                                        <a
+                                          href={entry.handle}
+                                          target="_blank"
+                                          rel="noopener noreferrer"
+                                          className="text-xs px-2 py-0.5 border border-blue-200 rounded-full text-blue-600 hover:bg-blue-50 transition ml-1 whitespace-nowrap"
+                                          style={{ fontSize: '11px', lineHeight: '18px' }}
+                                        >
+                                          View Post
+                                        </a>
+                                      )}
+                                    </div>
+                                    {/* Stats row on desktop */}
+                                    <div className="hidden sm:flex flex-wrap gap-x-3 gap-y-1 text-xs text-gray-600 bg-gray-50 rounded px-2 py-1 ml-2">
                                       <span className="flex items-center space-x-1">
                                         <Heart className="h-4 w-4 text-pink-500" />
                                         <span>{entry.likes ?? 0}</span>
@@ -494,18 +498,36 @@ const ContestDetail = () => {
                                         <span>{entry.views ?? 0}</span>
                                       </span>
                                     </div>
-                            </div>
-                          </div>
-                          <div className="text-right">
-                                  <span className="inline-block bg-green-100 text-green-700 font-semibold px-3 py-1 rounded-full text-sm mb-1">
-                                    Score: {entry.score.toLocaleString()} {getPossiblePrize(entry.rank, 'engagement') !== '-' && (
-                                      <span className="ml-2 text-yellow-600 font-bold">{getPossiblePrize(entry.rank, 'engagement')}</span>
-                                    )}
-                                  </span>
-                                  <div className="text-xs text-gray-400">{entry.prize}</div>
-                          </div>
-                        </div>
-                      ))}
+                                    <div className="flex flex-row items-center flex-shrink-0 ml-auto space-x-2">
+                                      <span className="inline-block bg-green-100 text-green-700 font-semibold px-2 sm:px-3 py-1 rounded-full text-xs sm:text-sm mb-0 whitespace-nowrap">
+                                        Score: {entry.score.toLocaleString()} {getPossiblePrize(entry.rank, 'engagement') !== '-' && (
+                                          <span className="ml-2 text-yellow-600 font-bold">{getPossiblePrize(entry.rank, 'engagement')}</span>
+                                        )}
+                                      </span>
+                                    </div>
+                                  </div>
+                                  {/* Stats row on mobile */}
+                                  <div className="flex flex-wrap gap-x-3 gap-y-1 text-xs text-gray-600 mt-2 bg-gray-50 rounded px-2 py-1 sm:hidden">
+                                    <span className="flex items-center space-x-1">
+                                      <Heart className="h-4 w-4 text-pink-500" />
+                                      <span>{entry.likes ?? 0}</span>
+                                    </span>
+                                    <span className="flex items-center space-x-1">
+                                      <MessageCircle className="h-4 w-4 text-blue-500" />
+                                      <span>{entry.comments ?? 0}</span>
+                                    </span>
+                                    <span className="flex items-center space-x-1">
+                                      <Share2 className="h-4 w-4 text-green-500" />
+                                      <span>{entry.shares ?? 0}</span>
+                                    </span>
+                                    <span className="flex items-center space-x-1">
+                                      <Eye className="h-4 w-4 text-gray-400" />
+                                      <span>{entry.views ?? 0}</span>
+                                    </span>
+                                  </div>
+                                </div>
+                              </div>
+                            ))}
                     </div>
                   </TabsContent>
                   <TabsContent value="creativity" className="mt-4">
@@ -516,32 +538,36 @@ const ContestDetail = () => {
                               {creativityLeaders.map((entry) => (
                                 <div
                                   key={entry.rank}
-                                  className={`flex items-center justify-between p-4 mb-3 rounded-xl shadow-sm bg-white border transition-all hover:shadow-lg ${entry.rank <= 3 ? 'border-blue-300' : 'border-gray-200'}`}
+                                  className={`flex flex-col sm:flex-row sm:items-center p-2 sm:p-3 mb-2 rounded-xl shadow-sm bg-white border overflow-x-hidden transition-all hover:shadow-lg ${entry.rank <= 3 ? 'border-yellow-300' : 'border-gray-200'}`}
                                 >
-                          <div className="flex items-center space-x-3">
-                                    <span className={`w-7 h-7 flex items-center justify-center rounded-full font-bold text-sm mr-1 ${
-                                      entry.rank === 1 ? 'bg-yellow-100 text-yellow-700' : entry.rank === 2 ? 'bg-gray-200 text-gray-700' : entry.rank === 3 ? 'bg-orange-100 text-orange-700' : 'bg-gray-100 text-gray-600'
-                                    }`}>
-                                      #{entry.rank}
-                                    </span>
-                                    <div className={`w-8 h-8 rounded-full flex items-center justify-center font-bold text-white text-lg ${
-                                      entry.rank === 1 ? 'bg-yellow-500' : entry.rank === 2 ? 'bg-gray-400' : entry.rank === 3 ? 'bg-orange-400' : 'bg-gray-300'
-                                    }`}>
-                                      {entry.rank <= 3 ? <Trophy className="h-5 w-5" /> : entry.rank}
-                                    </div>
-                                    <div>
-                                      {(() => {
-                                        const prev = previousRanks[entry.user_id];
-                                        if (prev === undefined) return <span className="text-gray-400 ml-1">-</span>;
-                                        if (entry.rank < prev) return <span className="text-green-500 ml-1">▲</span>;
-                                        if (entry.rank > prev) return <span className="text-red-500 ml-1">▼</span>;
-                                        return <span className="text-gray-400 ml-1">■</span>;
-                                      })()}
-                            </div>
-                            <div>
-                                      <div className="font-bold text-gray-800">{entry.name}</div>
-                                      <div className="text-xs text-gray-500">{entry.handle}</div>
-                                      <div className="flex space-x-4 text-xs text-gray-600 mt-2 bg-gray-50 rounded px-2 py-1">
+                                  <div className="flex flex-col sm:flex-row sm:items-center w-full">
+                                    <div className="flex flex-row items-center flex-wrap gap-x-2 gap-y-1 w-full sm:w-auto">
+                                      <span className={`w-7 h-7 flex items-center justify-center rounded-full font-bold text-sm mr-1 ${
+                                        entry.rank === 1 ? 'bg-yellow-100 text-yellow-700' : entry.rank === 2 ? 'bg-gray-200 text-gray-700' : entry.rank === 3 ? 'bg-orange-100 text-orange-700' : 'bg-gray-100 text-gray-600'
+                                      }`}>
+                                        #{entry.rank}
+                                      </span>
+                                      <div className={`w-8 h-8 rounded-full flex items-center justify-center font-bold text-white text-lg ${
+                                        entry.rank === 1 ? 'bg-yellow-500' : entry.rank === 2 ? 'bg-gray-400' : entry.rank === 3 ? 'bg-orange-400' : 'bg-gray-300'
+                                      }`}>
+                                        {entry.rank <= 3 ? <Trophy className="h-5 w-5" /> : entry.rank}
+                                      </div>
+                                      <div className="min-w-0 flex-1 flex items-center gap-2">
+                                        <div className="font-bold text-gray-800 text-sm sm:text-base truncate max-w-[120px] sm:max-w-xs">{entry.name}</div>
+                                        {entry.handle && (
+                                          <a
+                                            href={entry.handle}
+                                            target="_blank"
+                                            rel="noopener noreferrer"
+                                            className="text-xs px-2 py-0.5 border border-blue-200 rounded-full text-blue-600 hover:bg-blue-50 transition ml-1 whitespace-nowrap"
+                                            style={{ fontSize: '11px', lineHeight: '18px' }}
+                                          >
+                                            View Post
+                                          </a>
+                                        )}
+                                      </div>
+                                      {/* Stats row on desktop */}
+                                      <div className="hidden sm:flex flex-wrap gap-x-3 gap-y-1 text-xs text-gray-600 bg-gray-50 rounded px-2 py-1 ml-2">
                                         <span className="flex items-center space-x-1">
                                           <Heart className="h-4 w-4 text-pink-500" />
                                           <span>{entry.likes ?? 0}</span>
@@ -559,18 +585,36 @@ const ContestDetail = () => {
                                           <span>{entry.views ?? 0}</span>
                                         </span>
                                       </div>
-                            </div>
-                          </div>
-                          <div className="text-right">
-                                    <span className="inline-block bg-blue-100 text-blue-700 font-semibold px-3 py-1 rounded-full text-sm mb-1">
-                                      Score: {entry.score}{entry.rank <= 3 ? ' 🏆' : ''} {getPossiblePrize(entry.rank, 'creativity') !== '-' && (
-                                        <span className="ml-2 text-yellow-600 font-bold">{getPossiblePrize(entry.rank, 'creativity')}</span>
-                                      )}
-                                    </span>
-                                    <div className="text-xs text-gray-400">{entry.prize}</div>
-                          </div>
-                        </div>
-                      ))}
+                                      <div className="flex flex-row items-center flex-shrink-0 ml-auto space-x-2">
+                                        <span className="inline-block bg-blue-100 text-blue-700 font-semibold px-2 sm:px-3 py-1 rounded-full text-xs sm:text-sm mb-0 whitespace-nowrap">
+                                          Score: {entry.score}{entry.rank <= 3 ? ' 🏆' : ''} {getPossiblePrize(entry.rank, 'creativity') !== '-' && (
+                                            <span className="ml-2 text-yellow-600 font-bold">{getPossiblePrize(entry.rank, 'creativity')}</span>
+                                          )}
+                                        </span>
+                                      </div>
+                                    </div>
+                                    {/* Stats row on mobile */}
+                                    <div className="flex flex-wrap gap-x-3 gap-y-1 text-xs text-gray-600 mt-2 bg-gray-50 rounded px-2 py-1 sm:hidden">
+                                      <span className="flex items-center space-x-1">
+                                        <Heart className="h-4 w-4 text-pink-500" />
+                                        <span>{entry.likes ?? 0}</span>
+                                      </span>
+                                      <span className="flex items-center space-x-1">
+                                        <MessageCircle className="h-4 w-4 text-blue-500" />
+                                        <span>{entry.comments ?? 0}</span>
+                                      </span>
+                                      <span className="flex items-center space-x-1">
+                                        <Share2 className="h-4 w-4 text-green-500" />
+                                        <span>{entry.shares ?? 0}</span>
+                                      </span>
+                                      <span className="flex items-center space-x-1">
+                                        <Eye className="h-4 w-4 text-gray-400" />
+                                        <span>{entry.views ?? 0}</span>
+                                      </span>
+                                    </div>
+                                  </div>
+                                </div>
+                              ))}
                     </div>
                   </TabsContent>
                 </Tabs>
