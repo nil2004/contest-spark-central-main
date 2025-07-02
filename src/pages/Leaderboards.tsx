@@ -162,62 +162,62 @@ const Leaderboards = () => {
     <div className="min-h-screen bg-gray-50 flex flex-col">
       <Navbar />
       <div className="flex-1">
-        {/* Header */}
-        <div className="bg-gradient-to-r from-purple-600 to-blue-600 text-white py-16">
-          <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-            <h1 className="text-4xl md:text-5xl font-bold mb-4">Contest Leaderboards</h1>
-            <p className="text-xl opacity-90">
-              Track the top performers in engagement and creativity competitions
-            </p>
-          </div>
+      {/* Header */}
+      <div className="bg-gradient-to-r from-purple-600 to-blue-600 text-white py-16">
+        <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+          <h1 className="text-4xl md:text-5xl font-bold mb-4">Contest Leaderboards</h1>
+          <p className="text-xl opacity-90">
+            Track the top performers in engagement and creativity competitions
+          </p>
         </div>
-        <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-          {/* Contest Selector */}
-          <Card className="mb-8">
-            <CardHeader>
-              <CardTitle className="flex items-center justify-between">
-                <span className="flex items-center">
-                  <Trophy className="h-5 w-5 mr-2 text-purple-600" />
-                  Select Contest
-                </span>
-              </CardTitle>
-            </CardHeader>
-            <CardContent>
-              <Select value={selectedContest} onValueChange={setSelectedContest}>
-                <SelectTrigger className="w-full md:w-96">
-                  <SelectValue placeholder="Choose a contest" />
-                </SelectTrigger>
-                <SelectContent>
-                  {contests.map((contest) => (
-                    <SelectItem key={contest.id} value={contest.id}>
-                      <div className="flex items-center justify-between w-full">
+      </div>
+      <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+        {/* Contest Selector */}
+        <Card className="mb-8">
+          <CardHeader>
+            <CardTitle className="flex items-center justify-between">
+              <span className="flex items-center">
+                <Trophy className="h-5 w-5 mr-2 text-purple-600" />
+                Select Contest
+              </span>
+            </CardTitle>
+          </CardHeader>
+          <CardContent>
+            <Select value={selectedContest} onValueChange={setSelectedContest}>
+              <SelectTrigger className="w-full md:w-96">
+                <SelectValue placeholder="Choose a contest" />
+              </SelectTrigger>
+              <SelectContent>
+                {contests.map((contest) => (
+                  <SelectItem key={contest.id} value={contest.id}>
+                    <div className="flex items-center justify-between w-full">
                         <span>{contest.title}</span>
-                        <Badge className={contest.status === 'Active' ? 'bg-green-500 ml-2' : 'bg-gray-500 ml-2'}>
-                          {contest.status}
-                        </Badge>
-                      </div>
-                    </SelectItem>
-                  ))}
-                </SelectContent>
-              </Select>
-            </CardContent>
-          </Card>
+                      <Badge className={contest.status === 'Active' ? 'bg-green-500 ml-2' : 'bg-gray-500 ml-2'}>
+                        {contest.status}
+                      </Badge>
+                    </div>
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
+          </CardContent>
+        </Card>
 
-          {/* Leaderboards */}
+        {/* Leaderboards */}
           {loading ? (
             <div className="text-center text-lg text-gray-500 py-12">Loading leaderboard...</div>
           ) : (
             <>
               <div className="relative">
                 <div className={isLoggedIn ? '' : 'filter blur-sm pointer-events-none select-none'}>
-                  <Card>
-                    <CardHeader>
+            <Card>
+              <CardHeader>
                       <CardTitle className="flex items-center">
                         <Award className="h-5 w-5 mr-2 text-purple-600" />
                         Live Leaderboards
-                      </CardTitle>
-                    </CardHeader>
-                    <CardContent>
+                </CardTitle>
+              </CardHeader>
+              <CardContent>
                       <div className="mb-4 p-2 bg-blue-50 border-l-4 border-blue-400 text-blue-800 rounded text-sm">
                         <strong>Note:</strong> The leaderboard updates every 24 hours at 10:00 PM.
                       </div>
@@ -231,156 +231,200 @@ const Leaderboards = () => {
                             <strong>Engagement Leaders:</strong> Ranked by total engagement score (Likes + 2×Comments + 3×Shares). Only approved submissions are counted.
                           </div>
                           <div className="space-y-3">
-                            {engagementLeaderboard.map((entry) => (
-                              <div
-                                key={entry.rank}
-                                className={`flex items-center justify-between p-4 mb-3 rounded-xl shadow-sm bg-white border transition-all hover:shadow-lg ${entry.rank <= 3 ? 'border-yellow-300' : 'border-gray-200'}`}
-                              >
-                                <div className="flex items-center space-x-3">
-                                  <span className={`w-7 h-7 flex items-center justify-center rounded-full font-bold text-sm mr-1 ${
-                                    entry.rank === 1 ? 'bg-yellow-100 text-yellow-700' : entry.rank === 2 ? 'bg-gray-200 text-gray-700' : entry.rank === 3 ? 'bg-orange-100 text-orange-700' : 'bg-gray-100 text-gray-600'
-                                  }`}>
-                                    #{entry.rank}
-                                  </span>
-                                  <div className={`w-8 h-8 rounded-full flex items-center justify-center font-bold text-white text-lg ${
-                                    entry.rank === 1 ? 'bg-yellow-500' : entry.rank === 2 ? 'bg-gray-400' : entry.rank === 3 ? 'bg-orange-400' : 'bg-gray-300'
-                                  }`}>
-                                    {entry.rank <= 3 ? <Trophy className="h-5 w-5" /> : entry.rank}
-                                  </div>
-                                  <div>
-                                    <div className="font-bold text-gray-800">{entry.name}</div>
-                                    <div className="text-xs text-gray-500">{entry.handle}</div>
-                                    <div className="flex space-x-4 text-xs text-gray-600 mt-2 bg-gray-50 rounded px-2 py-1">
-                                      <span className="flex items-center space-x-1">
-                                        <Heart className="h-4 w-4 text-pink-500" />
-                                        <span>{entry.likes ?? 0}</span>
-                                      </span>
-                                      <span className="flex items-center space-x-1">
-                                        <MessageCircle className="h-4 w-4 text-blue-500" />
-                                        <span>{entry.comments ?? 0}</span>
-                                      </span>
-                                      <span className="flex items-center space-x-1">
-                                        <Share2 className="h-4 w-4 text-green-500" />
-                                        <span>{entry.shares ?? 0}</span>
-                                      </span>
-                                      <span className="flex items-center space-x-1">
-                                        <Eye className="h-4 w-4 text-gray-400" />
-                                        <span>{entry.views ?? 0}</span>
-                                      </span>
-                                    </div>
-                                  </div>
-                                </div>
-                                <div className="text-right">
-                                  <span className="inline-block bg-green-100 text-green-700 font-semibold px-3 py-1 rounded-full text-sm mb-1">
-                                    Score: {entry.score.toLocaleString()} {getPossiblePrize(entry.rank, 'engagement') !== '-' && (
-                                      <span className="ml-2 text-yellow-600 font-bold">{getPossiblePrize(entry.rank, 'engagement')}</span>
-                                    )}
-                                  </span>
-                                  <div className="text-xs text-gray-400">{entry.prize}</div>
-                                </div>
-                              </div>
-                            ))}
+                  {engagementLeaderboard.map((entry) => (
+                    <div
+                      key={entry.rank}
+                      className={`flex flex-col sm:flex-row sm:items-center p-3 sm:p-4 mb-3 rounded-xl shadow-sm bg-white border transition-all hover:shadow-lg ${entry.rank <= 3 ? 'border-yellow-300' : 'border-gray-200'}`}
+                    >
+                      <div className="flex flex-col sm:flex-row sm:items-center w-full">
+                        <div className="flex flex-row items-center flex-wrap gap-x-2 gap-y-1 w-full">
+                          <span className={`w-7 h-7 flex items-center justify-center rounded-full font-bold text-sm mr-1 ${
+                            entry.rank === 1 ? 'bg-yellow-100 text-yellow-700' : entry.rank === 2 ? 'bg-gray-200 text-gray-700' : entry.rank === 3 ? 'bg-orange-100 text-orange-700' : 'bg-gray-100 text-gray-600'
+                          }`}>
+                            #{entry.rank}
+                          </span>
+                          <div className={`w-8 h-8 rounded-full flex items-center justify-center font-bold text-white text-lg ${
+                            entry.rank === 1 ? 'bg-yellow-500' : entry.rank === 2 ? 'bg-gray-400' : entry.rank === 3 ? 'bg-orange-400' : 'bg-gray-300'
+                          }`}>
+                            {entry.rank <= 3 ? <Trophy className="h-5 w-5" /> : entry.rank}
                           </div>
-                        </TabsContent>
+                          <div className="min-w-0 flex-1">
+                            <div className="font-bold text-gray-800 text-sm sm:text-base truncate max-w-[120px] sm:max-w-xs">{entry.name}</div>
+                            <div className="text-xs text-gray-500 break-all max-w-[140px] sm:max-w-xs">{entry.handle}</div>
+                          </div>
+                          {/* Stats row on desktop */}
+                          <div className="hidden sm:flex flex-wrap gap-x-3 gap-y-1 text-xs text-gray-600 bg-gray-50 rounded px-2 py-1 ml-2">
+                            <span className="flex items-center space-x-1">
+                              <Heart className="h-4 w-4 text-pink-500" />
+                              <span>{entry.likes ?? 0}</span>
+                            </span>
+                            <span className="flex items-center space-x-1">
+                              <MessageCircle className="h-4 w-4 text-blue-500" />
+                              <span>{entry.comments ?? 0}</span>
+                            </span>
+                            <span className="flex items-center space-x-1">
+                              <Share2 className="h-4 w-4 text-green-500" />
+                              <span>{entry.shares ?? 0}</span>
+                            </span>
+                            <span className="flex items-center space-x-1">
+                              <Eye className="h-4 w-4 text-gray-400" />
+                              <span>{entry.views ?? 0}</span>
+                            </span>
+                          </div>
+                          {/* Score badge: always last, ml-auto on desktop */}
+                          <div className="flex flex-row items-center flex-shrink-0 mt-2 sm:mt-0 sm:ml-auto">
+                            <span className="inline-block bg-green-100 text-green-700 font-semibold px-2 sm:px-3 py-1 rounded-full text-xs sm:text-sm mb-0 whitespace-nowrap">
+                              Score: {entry.score.toLocaleString()} {getPossiblePrize(entry.rank, 'engagement') !== '-' && (
+                                <span className="ml-2 text-yellow-600 font-bold">{getPossiblePrize(entry.rank, 'engagement')}</span>
+                              )}
+                            </span>
+                          </div>
+                        </div>
+                        {/* Stats row on mobile */}
+                        <div className="flex flex-wrap gap-x-3 gap-y-1 text-xs text-gray-600 mt-2 bg-gray-50 rounded px-2 py-1 sm:hidden">
+                          <span className="flex items-center space-x-1">
+                            <Heart className="h-4 w-4 text-pink-500" />
+                            <span>{entry.likes ?? 0}</span>
+                          </span>
+                          <span className="flex items-center space-x-1">
+                            <MessageCircle className="h-4 w-4 text-blue-500" />
+                            <span>{entry.comments ?? 0}</span>
+                          </span>
+                          <span className="flex items-center space-x-1">
+                            <Share2 className="h-4 w-4 text-green-500" />
+                            <span>{entry.shares ?? 0}</span>
+                          </span>
+                          <span className="flex items-center space-x-1">
+                            <Eye className="h-4 w-4 text-gray-400" />
+                            <span>{entry.views ?? 0}</span>
+                          </span>
+                        </div>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+          </TabsContent>
                         <TabsContent value="creativity" className="mt-4">
                           <div className="mb-2 p-2 bg-blue-50 border-l-4 border-blue-400 text-blue-800 rounded">
                             <strong>Creativity Leaders:</strong> Ranked by creativity score (as judged by the brand). Only approved submissions are counted.
                           </div>
                           <div className="space-y-3">
-                            {creativityLeaderboard.map((entry) => (
-                              <div
-                                key={entry.rank}
-                                className={`flex items-center justify-between p-4 mb-3 rounded-xl shadow-sm bg-white border transition-all hover:shadow-lg ${entry.rank <= 3 ? 'border-blue-300' : 'border-gray-200'}`}
-                              >
-                                <div className="flex items-center space-x-3">
-                                  <span className={`w-7 h-7 flex items-center justify-center rounded-full font-bold text-sm mr-1 ${
-                                    entry.rank === 1 ? 'bg-yellow-100 text-yellow-700' : entry.rank === 2 ? 'bg-gray-200 text-gray-700' : entry.rank === 3 ? 'bg-orange-100 text-orange-700' : 'bg-gray-100 text-gray-600'
-                                  }`}>
-                                    #{entry.rank}
-                                  </span>
-                                  <div className={`w-8 h-8 rounded-full flex items-center justify-center font-bold text-white text-lg ${
-                                    entry.rank === 1 ? 'bg-yellow-500' : entry.rank === 2 ? 'bg-gray-400' : entry.rank === 3 ? 'bg-orange-400' : 'bg-gray-300'
-                                  }`}>
-                                    {entry.rank <= 3 ? <Trophy className="h-5 w-5" /> : entry.rank}
-                                  </div>
-                                  <div>
-                                    <div className="font-bold text-gray-800">{entry.name}</div>
-                                    <div className="text-xs text-gray-500">{entry.handle}</div>
-                                    <div className="flex space-x-4 text-xs text-gray-600 mt-2 bg-gray-50 rounded px-2 py-1">
-                                      <span className="flex items-center space-x-1">
-                                        <Heart className="h-4 w-4 text-pink-500" />
-                                        <span>{entry.likes ?? 0}</span>
-                                      </span>
-                                      <span className="flex items-center space-x-1">
-                                        <MessageCircle className="h-4 w-4 text-blue-500" />
-                                        <span>{entry.comments ?? 0}</span>
-                                      </span>
-                                      <span className="flex items-center space-x-1">
-                                        <Share2 className="h-4 w-4 text-green-500" />
-                                        <span>{entry.shares ?? 0}</span>
-                                      </span>
-                                      <span className="flex items-center space-x-1">
-                                        <Eye className="h-4 w-4 text-gray-400" />
-                                        <span>{entry.views ?? 0}</span>
-                                      </span>
-                                    </div>
-                                  </div>
-                                </div>
-                                <div className="text-right">
-                                  <span className="inline-block bg-blue-100 text-blue-700 font-semibold px-3 py-1 rounded-full text-sm mb-1">
-                                    Score: {entry.score}{entry.rank <= 3 ? ' 🏆' : ''} {getPossiblePrize(entry.rank, 'creativity') !== '-' && (
-                                      <span className="ml-2 text-yellow-600 font-bold">{getPossiblePrize(entry.rank, 'creativity')}</span>
-                                    )}
-                                  </span>
-                                  <div className="text-xs text-gray-400">{entry.prize}</div>
-                                </div>
-                              </div>
-                            ))}
+                  {creativityLeaderboard.map((entry) => (
+                    <div
+                      key={entry.rank}
+                      className={`flex flex-col sm:flex-row sm:items-center p-3 sm:p-4 mb-3 rounded-xl shadow-sm bg-white border transition-all hover:shadow-lg ${entry.rank <= 3 ? 'border-blue-300' : 'border-gray-200'}`}
+                    >
+                      <div className="flex flex-col sm:flex-row sm:items-center w-full">
+                        <div className="flex flex-row items-center flex-wrap gap-x-2 gap-y-1 w-full">
+                          <span className={`w-7 h-7 flex items-center justify-center rounded-full font-bold text-sm mr-1 ${
+                            entry.rank === 1 ? 'bg-yellow-100 text-yellow-700' : entry.rank === 2 ? 'bg-gray-200 text-gray-700' : entry.rank === 3 ? 'bg-orange-100 text-orange-700' : 'bg-gray-100 text-gray-600'
+                          }`}>
+                            #{entry.rank}
+                          </span>
+                          <div className={`w-8 h-8 rounded-full flex items-center justify-center font-bold text-white text-lg ${
+                            entry.rank === 1 ? 'bg-yellow-500' : entry.rank === 2 ? 'bg-gray-400' : entry.rank === 3 ? 'bg-orange-400' : 'bg-gray-300'
+                          }`}>
+                            {entry.rank <= 3 ? <Trophy className="h-5 w-5" /> : entry.rank}
                           </div>
+                          <div className="min-w-0 flex-1">
+                            <div className="font-bold text-gray-800 text-sm sm:text-base truncate max-w-[120px] sm:max-w-xs">{entry.name}</div>
+                            <div className="text-xs text-gray-500 break-all max-w-[140px] sm:max-w-xs">{entry.handle}</div>
+                          </div>
+                          {/* Stats row on desktop */}
+                          <div className="hidden sm:flex flex-wrap gap-x-3 gap-y-1 text-xs text-gray-600 bg-gray-50 rounded px-2 py-1 ml-2">
+                            <span className="flex items-center space-x-1">
+                              <Heart className="h-4 w-4 text-pink-500" />
+                              <span>{entry.likes ?? 0}</span>
+                            </span>
+                            <span className="flex items-center space-x-1">
+                              <MessageCircle className="h-4 w-4 text-blue-500" />
+                              <span>{entry.comments ?? 0}</span>
+                            </span>
+                            <span className="flex items-center space-x-1">
+                              <Share2 className="h-4 w-4 text-green-500" />
+                              <span>{entry.shares ?? 0}</span>
+                            </span>
+                            <span className="flex items-center space-x-1">
+                              <Eye className="h-4 w-4 text-gray-400" />
+                              <span>{entry.views ?? 0}</span>
+                            </span>
+                          </div>
+                          {/* Score badge: always last, ml-auto on desktop */}
+                          <div className="flex flex-row items-center flex-shrink-0 mt-2 sm:mt-0 sm:ml-auto">
+                            <span className="inline-block bg-blue-100 text-blue-700 font-semibold px-2 sm:px-3 py-1 rounded-full text-xs sm:text-sm mb-0 whitespace-nowrap">
+                              Score: {entry.score}{entry.rank <= 3 ? ' 🏆' : ''} {getPossiblePrize(entry.rank, 'creativity') !== '-' && (
+                                <span className="ml-2 text-yellow-600 font-bold">{getPossiblePrize(entry.rank, 'creativity')}</span>
+                              )}
+                            </span>
+                          </div>
+                        </div>
+                        {/* Stats row on mobile */}
+                        <div className="flex flex-wrap gap-x-3 gap-y-1 text-xs text-gray-600 mt-2 bg-gray-50 rounded px-2 py-1 sm:hidden">
+                          <span className="flex items-center space-x-1">
+                            <Heart className="h-4 w-4 text-pink-500" />
+                            <span>{entry.likes ?? 0}</span>
+                          </span>
+                          <span className="flex items-center space-x-1">
+                            <MessageCircle className="h-4 w-4 text-blue-500" />
+                            <span>{entry.comments ?? 0}</span>
+                          </span>
+                          <span className="flex items-center space-x-1">
+                            <Share2 className="h-4 w-4 text-green-500" />
+                            <span>{entry.shares ?? 0}</span>
+                          </span>
+                          <span className="flex items-center space-x-1">
+                            <Eye className="h-4 w-4 text-gray-400" />
+                            <span>{entry.views ?? 0}</span>
+                          </span>
+                        </div>
+                      </div>
+                    </div>
+                  ))}
+                </div>
                         </TabsContent>
                       </Tabs>
-                    </CardContent>
-                  </Card>
+              </CardContent>
+            </Card>
 
                   {/* Dynamic Prize Distribution Info */}
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-8">
-                    <Card>
-                      <CardHeader>
-                        <CardTitle className="flex items-center text-green-600">
-                          <TrendingUp className="h-5 w-5 mr-2" />
-                          Engagement Prizes
-                        </CardTitle>
-                      </CardHeader>
-                      <CardContent>
-                        <div className="space-y-3">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-8">
+          <Card>
+            <CardHeader>
+              <CardTitle className="flex items-center text-green-600">
+                <TrendingUp className="h-5 w-5 mr-2" />
+                Engagement Prizes
+              </CardTitle>
+            </CardHeader>
+            <CardContent>
+              <div className="space-y-3">
                           {getNonOverlappingPrizeTiers(prizeTiers, 'engagement').map((tier, idx) => (
                             <div key={idx} className="flex justify-between items-center">
-                              <span className="flex items-center">
+                  <span className="flex items-center">
                                 <Badge className="mr-2 bg-green-100 text-green-700">Rank {tier.rank_min}{tier.rank_min !== tier.rank_max ? `-${tier.rank_max}` : ''}</Badge>
                                 {tier.rank_label}
-                              </span>
+                  </span>
                               <span className="font-bold text-green-600">₹{tier.prize_amount}</span>
-                            </div>
+                </div>
                           ))}
-                        </div>
-                      </CardContent>
-                    </Card>
+              </div>
+            </CardContent>
+          </Card>
 
-                    <Card>
-                      <CardHeader>
-                        <CardTitle className="flex items-center text-blue-600">
-                          <Star className="h-5 w-5 mr-2" />
-                          Creativity Prizes
-                        </CardTitle>
-                      </CardHeader>
-                      <CardContent>
-                        <div className="space-y-3">
+          <Card>
+            <CardHeader>
+              <CardTitle className="flex items-center text-blue-600">
+                <Star className="h-5 w-5 mr-2" />
+                Creativity Prizes
+              </CardTitle>
+            </CardHeader>
+            <CardContent>
+              <div className="space-y-3">
                           {getNonOverlappingPrizeTiers(prizeTiers, 'creativity').map((tier, idx) => (
                             <div key={idx} className="flex justify-between items-center">
-                              <span className="flex items-center">
+                  <span className="flex items-center">
                                 <Badge className="mr-2 bg-blue-100 text-blue-700">Rank {tier.rank_min}{tier.rank_min !== tier.rank_max ? `-${tier.rank_max}` : ''}</Badge>
                                 {tier.rank_label}
-                              </span>
+                  </span>
                               <span className="font-bold text-blue-600">₹{tier.prize_amount}</span>
                             </div>
                           ))}
@@ -395,8 +439,8 @@ const Leaderboards = () => {
                       <span className="text-2xl font-bold text-purple-700 mb-2">Login Required</span>
                       <span className="text-gray-700 mb-4">Please log in or sign up to view the full leaderboard.</span>
                       <a href="/login" className="bg-gradient-to-r from-purple-600 to-blue-600 text-white px-6 py-2 rounded-full font-semibold shadow hover:from-purple-700 hover:to-blue-700 transition">Login / Signup</a>
-                    </div>
-                  </div>
+                </div>
+                </div>
                 )}
               </div>
             </>
