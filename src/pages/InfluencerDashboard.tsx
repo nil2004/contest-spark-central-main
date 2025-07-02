@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
@@ -35,6 +35,15 @@ const InfluencerDashboard = () => {
   const [activeTab, setActiveTab] = useState('dashboard');
   const [saveSuccess, setSaveSuccess] = useState(false);
   const navigate = useNavigate();
+
+  // Tab refs for scrollIntoView
+  const tabRefs = {
+    dashboard: useRef<HTMLButtonElement>(null),
+    submissions: useRef<HTMLButtonElement>(null),
+    rewards: useRef<HTMLButtonElement>(null),
+    profile: useRef<HTMLButtonElement>(null),
+    notifications: useRef<HTMLButtonElement>(null),
+  };
 
   useEffect(() => {
     const fetchProfileAndData = async () => {
@@ -246,6 +255,12 @@ const InfluencerDashboard = () => {
     }
   }, [activeTab, profile]);
 
+  useEffect(() => {
+    if (tabRefs[activeTab] && tabRefs[activeTab].current) {
+      tabRefs[activeTab].current.scrollIntoView({ behavior: 'smooth', inline: 'center', block: 'nearest' });
+    }
+  }, [activeTab]);
+
   if (loading) {
     return <div className="min-h-screen flex items-center justify-center text-lg text-gray-500">Loading profile...</div>;
   }
@@ -316,11 +331,11 @@ const InfluencerDashboard = () => {
       <div className="max-w-6xl mx-auto px-2 sm:px-4 lg:px-8 py-2 sm:py-4 flex-1 w-full">
         <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
           <TabsList className="w-full flex overflow-x-auto gap-2 mb-4 sm:mb-6 md:mb-8 rounded-lg bg-white/80 shadow-sm">
-            <TabsTrigger value="dashboard" className="flex-1 min-w-[120px]">Dashboard</TabsTrigger>
-            <TabsTrigger value="submissions" className="flex-1 min-w-[120px]">My Submissions</TabsTrigger>
-            <TabsTrigger value="rewards" className="flex-1 min-w-[120px]">Rewards</TabsTrigger>
-            <TabsTrigger value="profile" className="flex-1 min-w-[120px]">Profile</TabsTrigger>
-            <TabsTrigger value="notifications" className="flex-1 min-w-[120px] relative">
+            <TabsTrigger ref={tabRefs.dashboard} value="dashboard" className="flex-1 min-w-[120px]">Dashboard</TabsTrigger>
+            <TabsTrigger ref={tabRefs.submissions} value="submissions" className="flex-1 min-w-[120px]">My Submissions</TabsTrigger>
+            <TabsTrigger ref={tabRefs.rewards} value="rewards" className="flex-1 min-w-[120px]">Rewards</TabsTrigger>
+            <TabsTrigger ref={tabRefs.profile} value="profile" className="flex-1 min-w-[120px]">Profile</TabsTrigger>
+            <TabsTrigger ref={tabRefs.notifications} value="notifications" className="flex-1 min-w-[120px] relative">
               Notifications
               {unreadCount > 0 && (
                 <span className="absolute -top-2 -right-2 bg-red-500 text-white rounded-full px-2 text-xs">{unreadCount}</span>
